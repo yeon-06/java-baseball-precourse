@@ -1,8 +1,9 @@
-package baseball;
+package baseball.controller;
+
+import baseball.model.Number;
+import camp.nextstep.edu.missionutils.Console;
 
 import java.util.regex.Pattern;
-
-import camp.nextstep.edu.missionutils.Console;
 
 public class GameSystem {
 	private static final int CNT_NUMBER = 3;
