@@ -1,9 +1,7 @@
 package baseball.controller;
 
 import baseball.model.Number;
-import camp.nextstep.edu.missionutils.Console;
-
-import java.util.regex.Pattern;
+import baseball.view.InputView;
 
 public class GameSystem {
 	private static final int CNT_NUMBER = 3;
@@ -14,8 +12,8 @@ public class GameSystem {
 	private static final String NOTHING = "낫싱";
 	private static final String EXIT_CODE = "2";
 	private static final String ALL_STRIKE_SENTENCE = "3개의 숫자를 모두 맞히셨습니다! 게임 종료";
-	private static final String EXIT_SENTENCE = "게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.";
-	
+	private static final InputView inputView = new InputView();
+
 	private int[] player;
 	private int[] computer;
 	private boolean exit = false;
@@ -33,7 +31,8 @@ public class GameSystem {
 		computer = computerNumber.getDigits();
 		
 		while(!exit) {
-			playerNumber.inputAnswer();
+			String input = inputView.inputAnswer();
+			playerNumber.setDigits(input);
 			player = playerNumber.getDigits();
 			
 			resetScore();
@@ -65,7 +64,7 @@ public class GameSystem {
 	}
 	
 	private void readyToExit(Number computerNumber) {
-		String input = inputExit();
+		String input = inputView.inputExit();
 		if(EXIT_CODE.equals(input)) {
 			exit = true;
 		} else {
@@ -73,21 +72,7 @@ public class GameSystem {
 			computer = computerNumber.getDigits();
 		}
 	}
-	
-	private String inputExit() {
-		System.out.println(EXIT_SENTENCE);
-		String input = Console.readLine();
-		if(!isRightAnswer(input)) {
-			throw new IllegalArgumentException();
-		}
-		return input;
-	}
-	
-	private boolean isRightAnswer(String input) {
-		Pattern pattern = Pattern.compile("[1-2]");
-		return pattern.matcher(input).matches();
-	}
-	
+
 	private int isStrikeOrBall(int num, int index) {
 		for(int i=0;i<CNT_NUMBER;i++) {
 			if(computer[i] == num && i == index) {
