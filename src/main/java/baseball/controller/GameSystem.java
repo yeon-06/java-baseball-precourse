@@ -1,7 +1,7 @@
 package baseball.controller;
 
 import baseball.model.ComputerNumber;
-import baseball.model.Number;
+import baseball.model.PlayerNumber;
 import baseball.view.InputView;
 
 public class GameSystem {
@@ -14,7 +14,6 @@ public class GameSystem {
     private static final String ALL_STRIKE_SENTENCE = "3개의 숫자를 모두 맞히셨습니다! 게임 종료";
     private static final InputView inputView = new InputView();
 
-    private int[] player;
     private boolean exit = false;
 
     private int strike = 0;
@@ -24,7 +23,7 @@ public class GameSystem {
     }
 
     public void startGame() {
-        Number playerNumber = new Number();
+        PlayerNumber playerNumber = new PlayerNumber();
         ComputerNumber computerNumber = new ComputerNumber();
 
         computerNumber.setRandomNumber();
@@ -32,10 +31,9 @@ public class GameSystem {
         while (!exit) {
             String input = inputView.inputAnswer();
             playerNumber.setDigits(input);
-            player = playerNumber.getDigits();
 
             resetScore();
-            calculateScore(computerNumber);
+            calculateScore(computerNumber,playerNumber);
             printResult();
 
             if (strike == CNT_NUMBER) {
@@ -44,9 +42,9 @@ public class GameSystem {
         }
     }
 
-    private void calculateScore(ComputerNumber computer) {
+    private void calculateScore(ComputerNumber computer, PlayerNumber player) {
         for (int i = 0; i < CNT_NUMBER; i++) {
-            int score = computer.isStrikeOrBall(player[i], i);
+            int score = computer.isStrikeOrBall(player.getDigit(i), i);
             if (score == BALL_CODE) {
                 ball++;
                 continue;
