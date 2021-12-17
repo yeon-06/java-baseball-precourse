@@ -2,15 +2,13 @@ package baseball.controller;
 
 import baseball.model.ComputerNumber;
 import baseball.model.PlayerNumber;
+import baseball.model.enums.ScoreCode;
 import baseball.view.InputView;
+
+import static baseball.model.enums.ScoreCode.*;
 
 public class GameSystem {
     private static final int CNT_NUMBER = 3;
-    private static final int STRIKE_CODE = 2;
-    private static final int BALL_CODE = 1;
-    private static final String BALL_STR = "볼 ";
-    private static final String STRIKE_STR = "스트라이크";
-    private static final String NOTHING = "낫싱";
     private static final String ALL_STRIKE_SENTENCE = "3개의 숫자를 모두 맞히셨습니다! 게임 종료";
     private static final InputView inputView = new InputView();
 
@@ -33,7 +31,7 @@ public class GameSystem {
             playerNumber.setDigits(input);
 
             resetScore();
-            calculateScore(computerNumber,playerNumber);
+            calculateScore(computerNumber, playerNumber);
             printResult();
 
             if (strike == CNT_NUMBER) {
@@ -44,12 +42,12 @@ public class GameSystem {
 
     private void calculateScore(ComputerNumber computer, PlayerNumber player) {
         for (int i = 0; i < CNT_NUMBER; i++) {
-            int score = computer.isStrikeOrBall(player.getDigit(i), i);
-            if (score == BALL_CODE) {
+            ScoreCode score = computer.getScoreStatus(player.getDigit(i), i);
+            if (score == BALL) {
                 ball++;
                 continue;
             }
-            if (score == STRIKE_CODE) {
+            if (score == STRIKE) {
                 strike++;
             }
         }
@@ -79,15 +77,15 @@ public class GameSystem {
     @Override
     public String toString() {
         if (strike == 0 && ball == 0) {
-            return NOTHING;
+            return NOTHING.getValue();
         }
 
         StringBuilder sb = new StringBuilder();
         if (ball > 0) {
-            sb.append(ball).append(BALL_STR);
+            sb.append(ball).append(BALL.getValue()).append(" ");
         }
         if (strike > 0) {
-            sb.append(strike).append(STRIKE_STR);
+            sb.append(strike).append(STRIKE.getValue());
         }
         return sb.toString();
     }

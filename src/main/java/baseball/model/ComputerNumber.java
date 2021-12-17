@@ -1,5 +1,6 @@
 package baseball.model;
 
+import baseball.model.enums.ScoreCode;
 import camp.nextstep.edu.missionutils.Randoms;
 
 import java.util.ArrayList;
@@ -7,14 +8,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static baseball.model.enums.ScoreCode.*;
+
 public class ComputerNumber {
     private static final int CNT_NUMBER = 3;
     private static final int MIN_NUMBER = 1;
     private static final int MAX_NUMBER = 9;
     private static final String EXIT_CODE = "2";
-    private static final int STRIKE_CODE= 2;
-    private static final int BALL_CODE= 1;
-
 
     private List<Integer> digits;
 
@@ -35,17 +35,17 @@ public class ComputerNumber {
         return EXIT_CODE.equals(input);
     }
 
-    public int isStrikeOrBall(int num, int index) {
-        for(int i=0;i<CNT_NUMBER;i++) {
+    public ScoreCode getScoreStatus(int num, int index) {
+        for (int i = 0; i < CNT_NUMBER; i++) {
             Integer digit = digits.get(i);
-            if(digit == num && i == index) {
-                return STRIKE_CODE;
+            if (digit == num && i == index) {
+                return STRIKE;
             }
-            if(digit == num) {
-                return BALL_CODE;
+            if (digit == num) {
+                return BALL;
             }
         }
-        return -1;
+        return NOTHING;
     }
 
     private int getRandomNumber() {
