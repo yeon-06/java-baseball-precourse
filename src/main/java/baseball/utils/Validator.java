@@ -1,7 +1,6 @@
 package baseball.utils;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 public class Validator {
@@ -10,6 +9,7 @@ public class Validator {
     private static final int MAX_NUMBER = 9;
     private static final String INPUT_NUMBER_REGAX = "^[" + MIN_NUMBER + "-" + MAX_NUMBER + "]*$";
     private static final String EXIT_CODE_REGAX = "[1-2]";
+    private static final String BLANK_REGAX = "";
 
     public Validator() {
     }
@@ -33,10 +33,8 @@ public class Validator {
     }
 
     private boolean isNotDuplicate(String input) {
-        Set<Character> set = new HashSet<>();
-        for (char s : input.toCharArray()) {
-            set.add(s);
-        }
-        return input.length() == set.size();
+        return Arrays.stream(input.split(BLANK_REGAX))
+                .distinct()
+                .count() == input.length();
     }
 }
