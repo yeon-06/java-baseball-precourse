@@ -26,7 +26,7 @@ public class Number {
 	public void setRandomNumber() {
 		Set<Integer> digitSet = new HashSet<>();
 		
-		while(digitSet != null && digitSet.size() < CNT_NUMBER) {
+		while(digitSet.size() < CNT_NUMBER) {
 			digitSet.add(getRandomNumber());
 		}
 		
@@ -63,10 +63,7 @@ public class Number {
 	}
 	
 	private boolean isValidString(String str) {
-		if(!isRightLength(str) || !isMinToMax(str) || !isNotDuplicate(str)) {
-			return false;
-		}
-		return true;
+		return isRightLength(str) && isMinToMax(str) && isNotDuplicate(str);
 	}
 	
 	private boolean isRightLength(String input) {
